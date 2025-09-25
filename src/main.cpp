@@ -3,30 +3,16 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "main.h"
 #include "object.h"
 #include "behaviours.h"
+#include "main.h"
+
 
 #define WIDTH 80
 #define HEIGHT 24
 
 void fast_write(const char* data, size_t length) {
     write(STDOUT_FILENO, data, length);
-}
-
-int main()
-{
-    World_c world;
-    Startup(&world);
-
-    while(1)
-    {
-        Update(&world);
-        Render(&world);
-        usleep(50000);
-    }
-
-    return 0;
 }
 
 void Startup(World_c* world)
@@ -77,4 +63,19 @@ void Render(World_c* world)
     screen[offset] = '\0';
         
     fast_write(screen, offset);
+}
+
+int main()
+{
+    World_c world;
+    Startup(&world);
+
+    while(1)
+    {
+        Update(&world);
+        Render(&world);
+        usleep(50000);
+    }
+
+    return 0;
 }
