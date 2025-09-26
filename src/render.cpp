@@ -10,7 +10,8 @@
 #define WIDTH 80
 #define HEIGHT 24
 
-void fast_write(const char* data, size_t length) {
+void fast_write(const char* data, size_t length)
+{
     write(STDOUT_FILENO, data, length);
 }
 
@@ -24,7 +25,8 @@ void Render(World_c* world)
     char* screen = world->screen;
     memset(screen, ' ', HEIGHT * (WIDTH + 1) + 8);
     memcpy(screen, "\033[2J\033[H", 7);
-
+    for(int y = 0; y < HEIGHT; y++) SetPixel(world, WIDTH, y, '\n');
+        
     for(size_t i = 0; i < world->object_num; i++)
     {
         Transform_c* trn = &world->object_list[i].transform; 
@@ -40,7 +42,7 @@ void Render(World_c* world)
                     {
                         if(x >= 0 && x < WIDTH)
                         {
-                            SetPixel(world, x, y, 'A' + x);
+                            SetPixel(world, x, y, rnd->texture);
                         }
                     }
                 }
@@ -49,10 +51,6 @@ void Render(World_c* world)
     }
 
         
-    for(int y = 0; y < HEIGHT; y++) {
-        SetPixel(world, WIDTH, y, '\n');
-    }
-    //SetPixel(world, WIDTH+1, HEIGHT-1, '\0');
-        
+
     fast_write(screen, HEIGHT * (WIDTH + 1) + 8);
 }

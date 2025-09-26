@@ -13,6 +13,8 @@ typedef struct Transform_c{
 typedef struct Render_c {
     double size_x;
     double size_y;
+
+    char texture;
 } Render_c;
 
 typedef struct World_c World_c;

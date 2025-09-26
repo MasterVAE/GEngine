@@ -1,5 +1,13 @@
 {
     "files.associations": {
         "chrono": "cpp"
-    }
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/hobie/Documents/Projects/GEngine/build",
+            "binaryPath": "/home/hobie/Documents/Projects/GEngine/build/app",
+            "binaryArgs": []
+        }
+    ],
+    "makefile.makefilePath": "makefile"
 }
