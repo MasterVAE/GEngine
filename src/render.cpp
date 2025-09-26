@@ -14,12 +14,16 @@ void fast_write(const char* data, size_t length) {
     write(STDOUT_FILENO, data, length);
 }
 
+void SetPixel(World_c* world, size_t x, size_t y, char pixel)
+{
+    world->screen[7 + y * (WIDTH+1) + x] = pixel;
+}
 
 void Render(World_c* world)
 {
     char* screen = world->screen;
-    int offset = 0;
-    memset(screen, 0, HEIGHT * (WIDTH + 1) + 1);
+    memset(screen, ' ', HEIGHT * (WIDTH + 1) + 8);
+    memcpy(screen, "\033[2J\033[H", 7);
 
     for(size_t i = 0; i < world->object_num; i++)
     {
@@ -27,20 +31,28 @@ void Render(World_c* world)
         Render_c* rnd = &world->object_list[i].render; 
         if(rnd != NULL)
         {
-            Rect rect = {trn->x - rnd->size_x/2, trn->x + rnd->size_x/2, trn->y - rnd->size_y/2, trn->y + rnd->size_y/2};
+            Rect rect = {(int)rint(trn->x - rnd->size_x/2), (int)rint(trn->x + rnd->size_x/2), (int)rint(trn->y - rnd->size_y/2), (int)rint(trn->y + rnd->size_y/2)};
+            for(int y = rect.minY; y <= rect.maxY; y++)
+            {
+                if(y >= 0 && y < HEIGHT)
+                {
+                    for(int x = rect.minX; x <= rect.maxX; x++)
+                    {
+                        if(x >= 0 && x < WIDTH)
+                        {
+                            SetPixel(world, x, y, 'A' + x);
+                        }
+                    }
+                }
+            }
         }
     }
 
-    memcpy(screen, "\033[2J\033[H", 7);
-    offset += 7;
         
     for(int y = 0; y < HEIGHT; y++) {
-        for(int x = 0; x < WIDTH; x++) {
-                screen[offset++] = (x * y + y + world->counter) % 26 + 'A';
-        }
-        screen[offset++] = '\n';
+        SetPixel(world, WIDTH, y, '\n');
     }
-    screen[offset] = '\0';
+    //SetPixel(world, WIDTH+1, HEIGHT-1, '\0');
         
-    fast_write(screen, offset);
+    fast_write(screen, HEIGHT * (WIDTH + 1) + 8);
 }

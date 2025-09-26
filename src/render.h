@@ -9,10 +9,10 @@ void Render(World_c* world);
 
 typedef struct Rect
 {
-    double minX;
-    double maxX;
-    double minY;
-    double maxY;
+    int minX;
+    int maxX;
+    int minY;
+    int maxY;
 } Rect;
 
 #endif

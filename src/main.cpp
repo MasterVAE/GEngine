@@ -37,7 +37,7 @@ void Update(World_c* world)
     }
     if(world->counter > 200)
     {
-        abort();
+        exit(0);
     }
 }
 
