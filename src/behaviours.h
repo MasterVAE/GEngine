@@ -3,6 +3,4 @@
 
 #include "object.h"
 
-void bhvr1(World_c* world, Object_c* myself);
-
 #endif

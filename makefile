@@ -1,7 +1,6 @@
-CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -g
-SDL_FLAGS = $(shell pkg-config --cflags sdl2 SDL2_image)
-SDL_LIBS = $(shell pkg-config --libs sdl2 SDL2_image)
+CC = g++
+
+CFLAGS = 
 
 TARGET = build/app
 SRC_DIR = src
@@ -10,18 +9,23 @@ BUILD_DIR = build
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 
+.DEFAULT_GOAL := run
+
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(OBJS) -o $@ $(SDL_LIBS)
+	@$(CC) $(OBJS) -o $@
+	@echo "Linked Successfully" $<
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) $(SDL_FLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "Compiled Successfully" $<
 
 clean:
-	rm -rf $(BUILD_DIR)
+	@rm -rf $(BUILD_DIR)
+	@echo "Cleaned Successfully" $<
 
 run: $(TARGET)
 	./$(TARGET)

@@ -5,7 +5,10 @@
 
 #include "object.h"
 
-void Render(World_c* world);
+const int SCREEN_WIDTH = 80;
+const int SCREEN_HEIGHT = 40;
+
+void RenderManager_run(Game_t* game);
 
 typedef struct Rect
 {

@@ -3,40 +3,88 @@
 
 #include <stdio.h>
 
-typedef struct Transform_c{
+typedef struct Data             Data_t;
+typedef struct Game             Game_t;
+
+typedef struct InputManager     InputManager_t;
+typedef struct GameManager      GameManager_t;
+typedef struct RenderManager    RenderManager_t;
+
+typedef struct Transform        Transform_t;
+typedef struct Render           Render_t;
+typedef struct Object           Object_t;
+
+union data_union                //ОБЪЕДИНЕНИЕ ДЛЯ ХРАНЕНИЯ ПРОИЗВОЛЬНЫХ ДАННЫХ
+{
+    char c;
+    int i;
+    float f;
+    double d;
+    char* s;
+};
+
+typedef struct Data             //СЛОВАРЬ
+{
+    const char* label;
+    data_union value;
+} Data_t;
+
+typedef struct Transform        //ХРАНИТ ДАННЫЕ ОБ ГЕОМЕТРИИ ОБЪЕКТА
+{
     double x;
     double y;
 
     double rotation;
-} Transform;
+} Transform_t;
 
-typedef struct Render_c {
+typedef struct Render           //ХРАНИТ ДАННЫЕ ОБ РЕНДЕРЕ ОБЪЕКТА
+{
     double size_x;
     double size_y;
 
     char texture;
-} Render_c;
+} Render_t;
 
-typedef struct World_c World_c;
-typedef struct Object_c Object_c;
+typedef struct Object           //ХРАНИТ ДАННЫЕ ОБ ОБЪЕКТЕ
+{
+    Object_t* parent;
 
-typedef struct Object_c{
-    Transform_c transform;
-    Render_c render;
-    void (*behaviour1)(World_c* world, Object_c* myself);
-} Object_c;
+    Transform_t transform;
+    Render_t render;
 
-typedef struct World_c{
-    size_t object_num;
-    Object_c* object_list;
+    size_t data_count;
+    Data_t* data;
 
+    size_t behaviour_count;
+    int* (*behaviours)(Game_t*, Object_t*);
+} Object_t;
+
+typedef struct InputManager     //ХРАНИТ ДАННЫЕ ДИСПЕТЧЕРА ВВОДА
+{
+
+} InputManager_t;
+
+typedef struct GameManager      //ХРАНИТ ДАННЫЕ ДИСПЕТЧЕРА ВЫВОДА
+{
+    
+} GameManager_t;
+
+typedef struct RenderManager    //ХРАНИТ ДАННЫЕ ДИСПЕТЧЕРА РЕНДЕРА
+{
     char* screen;
+} RenderManager_t;
 
-    size_t counter;
+typedef struct Game             //ХРАНИТ ВСЕ ДАННЫЕ
+{   
+    InputManager_t  input;
+    GameManager_t   game;
+    RenderManager_t render;
 
-} World_c;
+    size_t object_num;
+    Object_t* object_list;
+} Game_t;
 
 
-Object_c* Create_Object();
+Object_t* Create_Object();
 
 #endif
