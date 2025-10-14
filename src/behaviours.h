@@ -3,4 +3,6 @@
 
 #include "object.h"
 
+int bhvr1(Game_t* game, Object_t* my_object);
+
 #endif

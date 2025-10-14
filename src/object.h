@@ -56,7 +56,7 @@ typedef struct Object           //ХРАНИТ ДАННЫЕ ОБ ОБЪЕКТЕ
     Data_t* data;
 
     size_t behaviour_count;
-    int* (*behaviours)(Game_t*, Object_t*);
+    int (**behaviour_list)(Game_t*, Object_t*);
 } Object_t;
 
 typedef struct InputManager     //ХРАНИТ ДАННЫЕ ДИСПЕТЧЕРА ВВОДА
